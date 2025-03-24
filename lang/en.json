@@ -1,0 +1,9 @@
+{
+  "dm-whisper": {
+    "setting": {
+      "name": "Share whispers with GM",
+      "hint": "If enabled, all whispers sent by players will also be shared with the GM."
+    },
+    "notification": "Note: Your whisper is also visible to the GM."
+  }
+}
