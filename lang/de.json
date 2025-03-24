@@ -1,0 +1,9 @@
+{
+  "dm-whisper": {
+    "setting": {
+      "name": "Flüsternachrichten mit dem Spielleiter teilen",
+      "hint": "Wenn aktiviert, werden alle Flüsternachrichten von Spielern auch mit dem Spielleiter geteilt."
+    },
+    "notification": "Hinweis: Deine Flüsternachricht ist auch für den Spielleiter sichtbar."
+  }
+}
