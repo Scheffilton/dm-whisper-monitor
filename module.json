@@ -1,0 +1,41 @@
+{
+  "id": "dm-whisper-monitor",
+  "title": "DM whisper monitor",
+  "description": "Shares all player whispers with the DM and informs players about it.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "authors": [
+    {
+      "name": "Scheffi",
+      "url": "https://ko-fi.com/scheffi",
+      "flags": {}
+    }
+  ],
+  "esmodules": ["scripts/dm-whisper.js"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    }
+  ],
+  "settings": [
+    {
+      "key": "enableWhisperSharing",
+      "name": "dm-whisper.setting.name",
+      "hint": "dm-whisper.setting.hint",
+      "type": "boolean",
+      "default": true,
+      "scope": "world",
+      "config": true
+    }
+  ]
+}
