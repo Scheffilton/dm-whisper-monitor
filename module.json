@@ -27,17 +27,7 @@
       "path": "lang/de.json"
     }
   ],
-  "settings": [
-    {
-      "key": "enableWhisperSharing",
-      "name": "dm-whisper.setting.name",
-      "hint": "dm-whisper.setting.hint",
-      "type": "boolean",
-      "default": true,
-      "scope": "world",
-      "config": true
-    }
-  ],
+
   "manifest": "https://raw.githubusercontent.com/Scheffilton/dm-whisper-monitor/refs/heads/main/module.json",
   "download": "https://github.com/Scheffilton/dm-whisper-monitor/archive/refs/heads/main.zip"
 
