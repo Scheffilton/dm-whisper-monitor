@@ -27,8 +27,6 @@
       "path": "lang/de.json"
     }
   ],
-
-  "manifest": "https://raw.githubusercontent.com/Scheffilton/dm-whisper-monitor/refs/heads/main/module.json",
-  "download": "https://github.com/Scheffilton/dm-whisper-monitor/archive/refs/heads/main.zip"
-
+"manifest": "https://raw.githubusercontent.com/Scheffilton/dm-whisper-monitor/main/module.json",
+"download": "https://github.com/Scheffilton/dm-whisper-monitor/archive/main.zip"
 }
