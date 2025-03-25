@@ -1,9 +1,7 @@
 {
-  "dm-whisper": {
-    "setting": {
-      "name": "Share whispers with GM",
-      "hint": "If enabled, all whispers sent by players will also be shared with the GM."
-    },
-    "notification": "Note: Your whisper is also visible to the GM."
-  }
+  "dm-whisper-monitor.notification": "Your whisper message has been forwarded to the GM.",
+  "dm-whisper-monitor.settings.enableWhisperSharing": "Share whispers with GM",
+  "dm-whisper-monitor.settings.enableWhisperSharingHint": "Enable this option to share whisper messages with the GM.",
+  "dm-whisper-monitor.settings.notifyPlayer": "Notify player about forwarded whispers",
+  "dm-whisper-monitor.settings.notifyPlayerHint": "Enable this option to notify the player when their whisper message is forwarded to the GM."
 }
