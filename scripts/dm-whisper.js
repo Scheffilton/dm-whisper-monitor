@@ -20,11 +20,11 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
-    // Wenn das Modul in den Einstellungen deaktiviert ist, nichts tun
-    if (!game.settings.get("dm-whisper-monitor", "enableWhisperSharing")) {
-        return;
-    }
-
+	console.log(game.settings.get("dm-whisper-monitor", "enableWhisperSharing"));
+	if(!game.settings.get("dm-whisper-monitor", "enableWhisperSharing")){
+		return;
+	}
+	
     // Sicherstellen, dass die Nachricht eine Flüsternachricht ist
     if (!data.whisper || !Array.isArray(data.whisper) || data.whisper.length === 0) {
         return;
@@ -35,13 +35,6 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (!gmUser) {
         return;
     }
-
-    // Wenn der GM noch nicht in der Whisper-Liste ist, füge ihn hinzu
-    if (!data.whisper.includes(gmUser.id)) {
-        data.whisper.push(gmUser.id);
-        options.whisper = data.whisper;
-        options.visibleTo = data.whisper;
-    } 
 
     // Den Inhalt der ursprünglichen Nachricht explizit sichern
     const messageContent = data.content || message.content;
@@ -58,17 +51,31 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     const originalRecipient = game.users.get(data.whisper[0]);
     const recipientName = originalRecipient ? originalRecipient.name : "Unbekannt";
 
-    // Kopie der Nachricht nur für den GM senden
-    ChatMessage.create({
-        content: `[Whisper-Kopie an den GM]: ${messageContent}<br><br><i>Ursprünglicher Empfänger: ${recipientName}</i>`,  // Inhalt und Empfängername
-        speaker: data.speaker,
-        whisper: [gmUser.id]
-    }).catch((err) => {
-        console.error("[DMWhisperMonitor] Error:", err);
-    });
 
     // Hinweis für den Spieler senden, je nach Einstellung
     if (userId === game.user.id && game.settings.get("dm-whisper-monitor", "notifyPlayer")) {
         ui.notifications.info(game.i18n.localize("dm-whisper-monitor.notification"), { permanent: false });
+    
+    } 
+	
+		    // Kopie der Nachricht nur für den GM senden
+    ChatMessage.create({
+        content: `[Whisper-Kopie an den GM]: ${messageContent}<br><br><i>Ursprünglicher Empfänger: ${recipientName}</i><br><br>IdentifierForDMWhisper`,  // Inhalt und Empfängername
+        speaker: [],
+        whisper: [gmUser.id]
+    }).catch((err) => {
+        console.error("[DMWhisperMonitor] Error:", err);
+    });
+	
+});
+
+Hooks.on("renderChatMessage", (message, html, data) => {
+    // Prüfen, ob es sich um eine DM-Kopie handelt
+    if (message.whisper.length > 0 && message.content.includes("IdentifierForDMWhisper")) {
+
+        // Falls der aktuelle User kein GM ist und die Einstellung aktiv ist, Nachricht verstecken
+        if (!game.user.isGM && !game.settings.get("dm-whisper-monitor", "notifyPlayer")) {
+            html.hide(); // Nachricht nur im Chat ausblenden
+        }
     }
 });
