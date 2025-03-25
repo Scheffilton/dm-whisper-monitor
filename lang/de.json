@@ -1,9 +1,7 @@
 {
-  "dm-whisper": {
-    "setting": {
-      "name": "Flüsternachrichten mit dem Spielleiter teilen",
-      "hint": "Wenn aktiviert, werden alle Flüsternachrichten von Spielern auch mit dem Spielleiter geteilt."
-    },
-    "notification": "Hinweis: Deine Flüsternachricht ist auch für den Spielleiter sichtbar."
-  }
+  "dm-whisper-monitor.notification": "Deine Flüsternachricht wurde an den Spielleiter weitergeleitet.",
+  "dm-whisper-monitor.settings.enableWhisperSharing": "Whisper mit dem Spielleiter teilen",
+  "dm-whisper-monitor.settings.enableWhisperSharingHint": "Aktiviere diese Option, um Flüsternachrichten mit dem Spielleiter zu teilen.",
+  "dm-whisper-monitor.settings.notifyPlayer": "Spieler über weitergeleitete Nachrichten benachrichtigen",
+  "dm-whisper-monitor.settings.notifyPlayerHint": "Aktiviere diese Option, um den Spieler zu benachrichtigen, wenn seine Nachricht an den Spielleiter weitergeleitet wird."
 }
