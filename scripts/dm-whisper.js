@@ -49,7 +49,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
 
     // Empfänger der ursprünglichen Flüsternachricht ermitteln
     const originalRecipient = game.users.get(data.whisper[0]);
-    const recipientName = originalRecipient ? originalRecipient.name : "Unbekannt";
+    const recipientName = originalRecipient ? originalRecipient.name : game.i18n.localize("dm-whisper-monitor.lang.unknown");
 
 
     // Hinweis für den Spieler senden, je nach Einstellung
@@ -60,7 +60,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
 	
 		    // Kopie der Nachricht nur für den GM senden
     ChatMessage.create({
-        content: `[Whisper-Kopie an den GM]: ${messageContent}<br><br><i>Ursprünglicher Empfänger: ${recipientName}</i><br><br>IdentifierForDMWhisper`,  // Inhalt und Empfängername
+        content: `[${game.i18n.localize("dm-whisper-monitor.lang.hintdmcopy")}]: ${messageContent}<br><br><i>${game.i18n.localize("dm-whisper-monitor.lang.originalRecipient")}: ${recipientName}</i><br><br>IdentifierForDMWhisper`,  // Inhalt und Empfängername
         speaker: [],
         whisper: [gmUser.id]
     }).catch((err) => {
