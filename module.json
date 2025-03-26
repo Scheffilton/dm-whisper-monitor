@@ -2,7 +2,7 @@
   "id": "dm-whisper-monitor",
   "title": "DM whisper monitor",
   "description": "Shares all player whispers with the DM and informs players about it.",
-  "version": "1.25.13",
+  "version": "2.0.1",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
