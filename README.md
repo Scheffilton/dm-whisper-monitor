@@ -8,5 +8,6 @@ Allow the DM/GM be able to receive the whispers between players - decide if the 
 ![image](https://github.com/user-attachments/assets/f15d1273-0a04-4a01-9fde-99b1a6c0b1fb)
 
 
-# Changelog (version v 1.year.weak)
-v1.25.13 - Initial public release
+# Changelog 
+v1.0.1 - Fixing missing translations
+v1.0.0 - Initial public release
