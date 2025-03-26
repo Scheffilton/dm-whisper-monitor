@@ -20,62 +20,57 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
-	console.log(game.settings.get("dm-whisper-monitor", "enableWhisperSharing"));
-	if(!game.settings.get("dm-whisper-monitor", "enableWhisperSharing")){
-		return;
-	}
-	
-    // Sicherstellen, dass die Nachricht eine Flüsternachricht ist
+    if (!game.settings.get("dm-whisper-monitor", "enableWhisperSharing")) {
+        return;
+    }
+
+    // Sicherstellen, dass es sich um eine Flüsternachricht handelt
     if (!data.whisper || !Array.isArray(data.whisper) || data.whisper.length === 0) {
         return;
     }
 
-    // Den GM finden
-    const gmUser = game.users.find(u => u.isGM && u.active);
-    if (!gmUser) {
+    // Alle aktiven GMs finden
+    const gmUsers = game.users.filter(user => user.isGM && user.active).map(user => user.id);
+
+    if (gmUsers.length === 0) {
         return;
     }
 
-    // Den Inhalt der ursprünglichen Nachricht explizit sichern
+    // Den Inhalt der ursprünglichen Nachricht sichern
     const messageContent = data.content || message.content;
     if (!messageContent) {
         return;
     }
 
-    // Verhindern von Endlosschleifen, falls die Nachricht bereits für den GM gesendet wurde
-    if (message.whisper && message.whisper.includes(gmUser.id)) {
-        return; // Verhindert das erneute Senden
+    // Prüfen, ob einer der GMs bereits in der Flüsterliste ist (um Endlosschleife zu verhindern)
+    if (data.whisper.some(id => gmUsers.includes(id))) {
+        return; // GM hat die Nachricht bereits erhalten
     }
 
     // Empfänger der ursprünglichen Flüsternachricht ermitteln
-    const originalRecipient = game.users.get(data.whisper[0]);
-    const recipientName = originalRecipient ? originalRecipient.name : game.i18n.localize("dm-whisper-monitor.lang.unknown");
+    const originalRecipients = data.whisper.map(id => game.users.get(id)?.name || game.i18n.localize("dm-whisper-monitor.lang.unknown")).join(", ");
 
-
-    // Hinweis für den Spieler senden, je nach Einstellung
+    // Hinweis für den Spieler senden, falls aktiviert
     if (userId === game.user.id && game.settings.get("dm-whisper-monitor", "notifyPlayer")) {
         ui.notifications.info(game.i18n.localize("dm-whisper-monitor.notification"), { permanent: false });
-    
-    } 
-	
-		    // Kopie der Nachricht nur für den GM senden
+    }
+
+    // Kopie der Nachricht nur für die GMs senden
     ChatMessage.create({
-        content: `[${game.i18n.localize("dm-whisper-monitor.lang.hintdmcopy")}]: ${messageContent}<br><br><i>${game.i18n.localize("dm-whisper-monitor.lang.originalRecipient")}: ${recipientName}</i><br><br>IdentifierForDMWhisper`,  // Inhalt und Empfängername
-        speaker: [],
-        whisper: [gmUser.id]
+        content: `[${game.i18n.localize("dm-whisper-monitor.lang.hintdmcopy")}]: ${messageContent}<br><br><i>${game.i18n.localize("dm-whisper-monitor.lang.originalRecipient")}: ${originalRecipients}</i>`,
+        speaker: { alias: "Flüstermonitor" },
+        whisper: gmUsers
     }).catch((err) => {
-        console.error("[DMWhisperMonitor] Error:", err);
+        console.error("[DMWhisperMonitor] Fehler:", err);
     });
-	
 });
 
 Hooks.on("renderChatMessage", (message, html, data) => {
     // Prüfen, ob es sich um eine DM-Kopie handelt
-    if (message.whisper.length > 0 && message.content.includes("IdentifierForDMWhisper")) {
-
-        // Falls der aktuelle User kein GM ist und die Einstellung aktiv ist, Nachricht verstecken
+    if (message.whisper.length > 0 && message.content.includes(`[${game.i18n.localize("dm-whisper-monitor.lang.hintdmcopy")}]`)) {
+        // Falls der aktuelle User kein GM ist und "notifyPlayer" deaktiviert ist, Nachricht verstecken
         if (!game.user.isGM && !game.settings.get("dm-whisper-monitor", "notifyPlayer")) {
-            html.hide(); // Nachricht nur im Chat ausblenden
+            html.hide(); // Nachricht nur für Spieler ausblenden
         }
     }
 });
