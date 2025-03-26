@@ -10,4 +10,5 @@ Allow the DM/GM be able to receive the whispers between players - decide if the 
 
 # Changelog 
 v1.0.1 - Fixing missing translations
+
 v1.0.0 - Initial public release
