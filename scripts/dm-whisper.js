@@ -58,7 +58,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     // Kopie der Nachricht nur für die GMs senden
     ChatMessage.create({
         content: `[${game.i18n.localize("dm-whisper-monitor.lang.hintdmcopy")}]: ${messageContent}<br><br><i>${game.i18n.localize("dm-whisper-monitor.lang.originalRecipient")}: ${originalRecipients}</i>`,
-        speaker: { alias: "Flüstermonitor" },
+//        speaker: { alias: "Flüstermonitor" }, uncomment to show original sender
         whisper: gmUsers
     }).catch((err) => {
         console.error("[DMWhisperMonitor] Fehler:", err);
